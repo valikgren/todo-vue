@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-text-field prepend-icon="mdi-magnify" v-model="search"/>
+    <div class="d-flex align-end">
+      <v-text-field prepend-icon="mdi-magnify" v-model="search" class="mt-0" />
+      <v-btn class="ml-5" color="green" fab small dark @click="userAdd()">
+        <v-icon>mdi-account-multiple-plus</v-icon>
+      </v-btn>
+    </div>
     <v-list two-line>
       <v-list-item-group>
         <template v-for="(user, index) in filteredList">
@@ -14,7 +19,7 @@
                 <v-list-item-subtitle class="text--primary" v-text="user.email" />
                 <v-list-item-subtitle v-text="user.address.city + ', ' + user.address.street" />
               </v-list-item-content>
-              <v-btn color="primary" fab x-small dark @click="editUser(user)">
+              <v-btn color="primary" fab x-small dark @click="userEdit(user)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
@@ -56,8 +61,11 @@ export default {
   },
   methods: {
     ...mapActions('user', ['getList']),
-    editUser(user) {
-      console.log(user);
+    userEdit(user) {
+      this.$emit('userEdit', user);
+    },
+    userAdd() {
+      this.$emit('userAdd');
     },
   },
 };
