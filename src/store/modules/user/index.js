@@ -10,6 +10,16 @@ const mutations = {
   setList(state, payload) {
     state.userList = payload;
   },
+  addUser(state, payload) {
+    state.userList.unshift({
+      ...payload,
+      id: Math.random().toString(36).substr(2, 9),
+    });
+  },
+  deleteUser(state, user) {
+    const elementIndex = state.userList.indexOf(user);
+    state.userList.splice(elementIndex, 1);
+  }
 };
 
 const actions = {

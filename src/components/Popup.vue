@@ -2,7 +2,7 @@
   <v-dialog
     :value="value"
     @input="onInput"
-    width="600"
+    width="574"
     max-width="90%"
     content-class="user-editing"
   >
@@ -92,6 +92,7 @@
 <script>
 import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'user-popup',
@@ -121,7 +122,17 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('user', ['addUser']),
     onSubmit() {
+      this.addUser({
+        username: this.username,
+        email: this.email,
+        address: {
+          city: this.city,
+          street: this.street,
+        }
+      });
+      this.close();
     },
     close() {
       this.$emit('input', false);
@@ -156,14 +167,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-  .v-input {
-    height: 44px;
-    position: relative;
-  }
-  .v-text-field__details{
-    position: absolute;
-    top: calc(100% + 2px);
-  }
-</style>
